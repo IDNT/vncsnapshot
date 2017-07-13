@@ -1,0 +1,30 @@
+
+vncsnapshot 1.2: VNC snapshot utility based on VNC
+================================================================
+
+TightVNC is Copyright (C) 2001 Const Kaplinsky.  All Rights Reserved.
+VNC is Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
+This software is distributed under the GNU General Public Licence as published
+by the Free Software Foundation.
+
+Adapted from the TightVNC viewer by Grant McDorman, February 2002.
+
+Features
+--------
+ Always connects to server in 'shared' mode.
+
+ Saves image to JPEG file. The JPEG quality can be specified, with a default
+ of 100%.
+
+ The remote cursor is NOT included - unfortunately, the server doesn't provide
+ a way of including the cursor in the snapshot.
+
+ Standard VNC/TightVNC options (encoding, etc.) are available.
+
+ On Windows, -listen, -tunnel and -via options are not available.
+
+On Windows systems, please read BUILD.win32.
+
+On Unix and Linux systems, please read BUILD.unix.
+
+< $Id: README,v 1.4 2004/09/09 00:22:33 grmcdorman Exp $ >

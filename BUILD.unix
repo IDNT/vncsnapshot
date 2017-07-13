@@ -1,0 +1,54 @@
+BUILDING vncsnapshot (1.0 release) for Unix and Linux
+======================================================
+
+This distibution requires two third-party libraries for successfull
+compilation. They are NOT included in this archive. These are are zlib
+and JPEG libraries freely available in the source form from following
+locations:
+
+
+  JPEG library:
+   Home page: http://www.ijg.org/
+   Tar/GZ:    http://www.ijg.org/files/jpegsrc.v6b.tar.gz
+   Zip:       ftp://ftp.simtel.net/pub/simtelnet/msdos/graphics/jpegsr6.zip
+  zlib library:
+    Home page http://www.gzip.org/zlib/
+    Tar/GZ:   http://www.gzip.org/zlib/zlib-1.1.4.tar.gz
+    Tar/BZ2:  http://www.gzip.org/zlib/zlib-1.1.4.tar.bz2
+    Zip:      http://www.gzip.org/zlib/zlib114.zip
+
+You *must* use zlib 1.1.4 or later. Earlier versions have a significant
+security hole; see the zlib home page for details.
+
+If your system already has these packages installed, simply edit the
+Makefile to use the correct include and library paths. The defaults in the
+Makefile are suitable for most systems with the libraries in the standard
+locations (/usr or /usr/local).
+
+If you do not have them, please download the packages and compile. They can
+be installed anywhere (root permission is not required), as long as you edit
+the Makefile appropriately.
+
+The Makefile does not include an 'install' target; to install, simply copy
+'vncsnapshot' to the desired location (such as /usr/local/bin).
+
+Other Makefile configuration items:
+  EXTRALIBS needs to be set to any extra libraries you need. On Solaris,
+  this will be '-lsocket -lnsl'.
+
+  EXTRAINCLUDES needs to be set to any extra include options you need.
+  Most systems should not require anything extra here.
+
+  CC is set 'gcc'. On non-Linux systems, such as Solaris, you may want
+  to set this to something else such as 'cc' or 'acc'.
+
+  Likewise, CXX is set 'g++'. Again, you may want to set this to something
+  else such as 'CC'.
+
+  CDEBUGFLAGS is set to '-O2'. This is appropriate for gcc; other
+  compilers may want '-O'; or, you may wish to set this to '-g' for
+  debugging.
+
+You can also look at make_release_bin; this script is used by the maintainer
+to build vncsnapshot on various flavours of Unix and Linux.
+< $Id: BUILD.unix,v 1.4 2004/09/09 00:22:33 grmcdorman Exp $ >

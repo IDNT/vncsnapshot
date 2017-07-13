@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<!-- $Id: web-page.html,v 1.10 2006/04/07 03:22:39 grmcdorman Exp $ -->
+<html>
+<head>
+  <title>VNC Snapshot</title>
+</head>
+<script language="JavaScript">
+<!--
+  function write_email(user,site,domain) {
+    document.write("<A HREF='mailto:" + user + "@" + site + "." + domain + "'>");
+    document.write(user + "@" + site + "." + domain);
+    document.write("</A>");
+  }
+//-->
+</script>
+<body>
+  <center><h1>VNC Snapshot</h1></center>
+<center>Hosted by Source Forge <A href="http://sourceforge.net"> <IMG
+src="http://sourceforge.net/sflogo.php?group_id=46166"  border="0" alt="SourceForge Logo"></A></center>
+<table BORDER="1">
+  <tr>
+    <th COLSPAN=2> Quick Links  </th>
+  </tr>
+   <td colspan=2> Mail author:
+<script language="Javascript">
+<!--
+   write_email("grmcdorman","users","sourceforge.net");
+//-->
+</script>
+  </tr>
+  <tr>
+    <td> <A HREF="http://sourceforge.net/projects/vncsnapshot/">
+    VNC Snapshot at Sourceforge</a>  </td>
+    <td> <A HREF="http://vncsnapshot.sourceforge.net">
+    VNC Snapshot Home Page</a> </td>
+  </tr>
+  <tr>
+    <td> <A HREF="http://www.realvnc.com/">
+    Official VNC Home Page</a> </td>
+    <td> <A HREF="http://www.tightvnc.com">
+    Tight VNC Home Page</a> </td>
+  </tr>
+  <tr>
+   <TD COLSPAN=2> <HR> </TD>
+   </tr>
+  <tr>
+    <td> <A HREF="#features">Features</A> </TD>
+    <td> <A HREF="#options">Command-Line Options</a> </tD>
+  </tr>
+  <tr>
+    <td> <A HREF="#examples">Examples</A> </TD>
+    <td> <A HREF="#summary">Project Summary</a> </tD>
+  </tr>
+</table>
+
+
+<H2>About VNC and VNCSnapshot</H2>
+
+<p><A HREF="http://www.realvnc.com/">VNC</A>
+  [www.realvnc.com] (an abbreviation for Virtual Network Computing) is a great client/server software
+package allowing remote network access to graphical desktops. With VNC, you may allow
+yourself to access your machine from everywhere provided that your machine is
+connected to the Internet. VNC is free (released under the GNU General Public License)
+and it's available on most platforms. The original VNC distribution can be obtained at the
+Real VNC <A HREF="http://wwww.realvnc.com">site</A>.
+
+<p>VNC Snapshot is a command-line program for VNC. It will save a JPEG image of the VNC server's
+  screen.
+<p>Also included with the package is <b>vncpasswd</b>, to allow you to create password files if
+you do not have a Unix or Linux version of VNC available. Note that while this utility is in the
+Windows version of VNC Snapshot, it does <em>not</em> create a file usable by the Windows version
+of the VNC Server.
+<p>VNC Snapshot is derived from <A HREF="http://www.tightvnc.com">Tight
+VNC</A> [www.tightvnc.com] and <A HREF="http://www.realvnc.com">Real VNC</A> [www.realvnc.com].
+<p>Sources and binaries can be download from the VNCSnapshot Source Forge <A HREF="http://sourceforge.net/projects/vncsnapshot/">site</a>.
+  <H2><A NAME="features">VNC Snapshot Features and Usage</A></H2>
+  VNC Snapshot includes all standard VNC viewer options, except those that apply
+  to the viewer's window.
+
+  <P>VNC Snapshot can only be used from the command line.
+  <p>It can be invoked in three ways:
+  <p><code>vncsnapshot </code><em>options</em><code> </code><em>host</em><code>:</code><em>display</em><code> </code><em>JPEG-filename</em>
+  <p><code>vncsnapshot </code><em>options</em><code> </code>-listen </code><em>local-display</em><code> </code><em>JPEG-filename</em>
+  <p><code>vncsnapshot </code><em>options</em><code> </code>-tunnel </code><em>host</em><code>:</code><em>display</em><code> </code><em>JPEG-filename</em>
+  <p><code>vncsnapshot </code><em>options</em><code> </code>-via </code><em>gateway</em><code> </code><em>host</em><code>:</code><em>display</em><code> </code><em>JPEG-filename</em>
+  <p><b>-listen</b>, <b>-tunnel</b> and <b>-via</b> options have not been
+tested on Windows systems.
+
+  <p><table border=1>
+    <tr>
+      <th colspan=2> <A NAME="options">Options</A> </th>
+    <tr>
+      <th align="left"> -cursor <br> -nocursor </th>
+      <td> Attempt to include, or exclude, the mouse cursor from the
+snapshot. Currently, this works only when the remote server is TightVNC
+1.2.7 or later. Other servers do not respond to these options and may or may
+not include the cursor in the snapshot.
+      </td>
+    </tr>
+    <tr>
+      <th align="left"> -nullpasswd </th>
+      <td> Use a null (blank) password for authentication. This
+      can be useful for servers that have a password for full control,
+      and a blank password for view-only.
+      </td>
+      <th align="left"> -passwd <em>filename</em> </th>
+      <td> Read encrypted password from <em>filename</em> instead
+      of from the console. The <em>filename</em> can be made with
+      the <code>vncpasswd</code> utility included in the vncsnapshot
+      distribution.
+      </td>
+    </tr>
+    <tr>
+      <th align="left"> -encodings <em>list</em> </th>
+      <td> Use the given encodings. The default is
+        <br>&nbsp;"copyrect tight  hextile  zlib  corre  rre"
+        <br>or
+        <br>&nbsp;"raw copyrect tight  hextile  zlib  corre  rre"
+        <br>when VNC snapshot and the server are on the same machine.
+        </td>
+    </tr>
+    <tr>
+      <th align="left"> -compresslevel <em>level</em> </th>
+      <td> Compress network messages to <em>level</em>, if the server
+           supports it. <em>level</em> is between 0 and 9, with 0 being
+           no compression and 9 the maximum. The default is 4.</td>
+    </tr>
+    <tr>
+      <th align="left"> -allowblank <br>
+           -ignoreblank </th>
+      <td> Allow, or ignore, blank (all black) screens from the server. The
+default is to ignore blank screens, and to wait for the first non-blank
+screen instead. This is useful with some versions of RealVNC, which send an
+all-black screen initially before sending the actual screen image. </td>
+    </tr>
+    <tr>
+      <th align="left"> -vncQuality <em>quality</em> </th>
+      <td> Use the specified image  quality  level  (0-9)  for
+              tight encoding. The default is 9.</td>
+    </tr>
+    <tr>
+      <th align="left"> -quality <em>quality</em> </th>
+      <td> Use the specified JPEG image quality (0-100) for the output file.
+      The default is 100.</td>
+    </tr>
+    <tr>
+      <th align="left">-quiet</th>
+      <td>Do not print any messages. Opposite of <b>-verbose</b>.</td>
+    </tr>
+    <tr>
+      <th align="left"> -verbose </th>
+      <td> Print messages; default.</td>
+    </tr>
+    <tr>
+      <th align="left">       -rect <em>w</em>x<em>h</em>+<em>x</em>+<em>y</em> </th>
+      <td> Save a sub-rectangle of the screen, width <em>w</em> height <em>h</em>
+           offset from the left by <em>x</em> and the top by <em>y</em>.
+           <p>A negative number for <em>x</em> or <em>y</em> makes it an
+           offset from the opposite edge.
+           <p>A zero value for the width or height makes the snapshot extend
+           to the right or bottom of the screen, respectively.
+           <p>The default is the entire screen.
+      </td>
+    </tr>
+    <tr>
+      <th align="left"> -count <em>number</em></th>
+      <td> Take <em>number</em> snapshots; default 1. If greater than 1,
+           vncsnapshot will insert a five-digit sequence number just before
+	   the output file's extension; i.e. if you specify <b>out.jpeg</b>
+	   as the output file, it will create <b>out00001.jpeg</b>, <b>out00002.jpeg</b>,
+	   and so forth.</td>
+    </tr>
+    <tr>
+      <th align="left"> -fps <em>rate</em> </th>
+      <td> When taking multiple snapshots, take them every <em>rate</em> seconds; default 60.
+           </td>
+    </tr>
+  </table>
+  <H2><A NAME="examples">Example Command Lines</A></H2>
+  <DL>
+  <DT>
+  <code>vncsnapshot ankh-morpork:1 unseen.jpg</code>
+  </DT>
+  <DD>Get a snapshot of screen 1 from the server <code>ahnk-morpork</code>
+  and save it in <code>unseen.jpg</code>. The entire screen is saved; the
+  default transport is used.
+  </DD>
+  <DT>
+  <code>vncsnapshot -listen 0 portrait.jpeg</code>
+  </DT>
+  <DD>Wait for a server to connect to this host (using "screen" 0),
+  and then save the full screen image in <code>portrait.jpeg</code>.
+  </DD>
+  <DT>
+  <code>vncsnapshot -passwd ~/.vnc/passwd -rect 640x0+120+30 :1 subarea.jpeg</code>
+  </DT>
+  <DD>
+        Using <code>~/.vnc/passwd</code> to get the server's password,
+        connect to screen 1 on the local machine and save a rectangle 640 pixels
+        high and extending to the right edge offset 120 pixels from the left
+        and 30 pixels down.
+  </DD>
+  <DT>
+  <code>vncsnapshot -rect 0x0-800-600 :1 pict.jpeg</code>
+  <DD>
+        Get a snapshot that is 800 pixels from the right edge and 600 pixels
+        from the bottom of the screen. It will extend to the screen edges,
+        making it 800x600. Alternatively, the rectangle could be given
+as <code> -rect 800x600-0-0</code>, which specifies the same region.
+  </DD>
+  </DL>
+  <H2><A NAME="summary">Project Summary</a></H2>
+  <table>
+  <tr>
+    <th align="left" colspan=2> Current Release:  </th>
+  </tr>
+  <tr>
+    <th align="left"> Version: </th>
+    <td> 1.3/td>
+  <tr>
+  </tr>
+    <th align="left"> Release Notes: </th>
+    <td> <A HREF="RELEASE-NOTES.txt">1.3 Release Notes </a></td>
+  </tr>
+  </tr>
+    <th align="left"> Change Log: </th>
+    <td> <A HREF="CHANGE-LOG.txt">1.3 Change Log</a></td>
+  </tr>
+</table>
+</body>
+</html>

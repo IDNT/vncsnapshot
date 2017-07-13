@@ -1,0 +1,125 @@
+#!/bin/sh
+# This shell script is set up to build on SourceForge compile farm hosts,
+# plus a few others. Output is placed in 'bin', with ldd output in 'ldd-info'.
+# 
+# It expects jpeg-6b and zlib-1.2.2 to be unpacked in the current directory.
+# They will be used on systems where they are missing.
+#
+# Systems it is known to work on include:
+#   Debian Alpha
+#   Debian x86
+#   FreeBSD x86
+#   Gentoo x686 (Pentium 4)
+#   Mac OS X (Darwin) PowerPC
+#   NetBSD x86
+#   OpenBSD x86
+#   Red Hat Linux x86
+#   SuSE x86_64 (64 bit)
+#   SunOS Solaris Sparc (sun4u)
+#   SunOS Solaris x86
+#
+RELEASE=$1
+
+OS="`uname -s`"
+  CC=gcc
+  CDEBUGFLAGS="-O2 -Wall"
+  CXX=g++
+  MAKE=make
+# need to set this before comiling JPEG
+if [ "$OS" = "SunOS" ];then
+  PATH=/opt/SUNWspro/bin:$PATH:/usr/ccs/bin
+  export PATH
+  CC=cc
+  EXTRALIBS="-lsocket -lnsl"
+  CXX=CC
+  CDEBUGFLAGS=-O
+  export CC CXX
+fi
+
+# make sure we're clean
+cd vncsnapshot-$RELEASE
+make clean
+cd ..
+cd jpeg-6b
+make clean
+cd ../zlib-1.2.1
+make clean
+cd ..
+
+# dummy macros
+  COMPILE_cc=0
+  LINK_c=0
+  LINK_cc=0
+  vCOMPILE_cc="VNC_DUMMY_VAR="
+  vLINK_c="VNC_DUMMY_VAR="
+  vLINK_cc="VNC_DUMMY_VAR="
+
+# defaults
+  ZLIB_INCLUDE=
+# for systems that have libjpeg.so but no header file
+  JPEG_INCLUDE=-I../jpeg-6b
+  [ -f /usr/include/jpeglib.h ] && JPEG_INCLUDE=
+  ZLIB_LIB="-lz"
+
+# Detech JPEG library
+  if [ -f /usr/lib/libjpeg.so ];then
+    JPEG_LIB="-ljpeg"
+  elif [ -f /usr/lib/libjpeg.so.62 ];then
+    JPEG_LIB="/usr/lib/libjpeg.so.62"
+  else
+    JPEG_INCLUDE=-I../jpeg-6b
+    JPEG_LIB="-L../jpeg-6b -ljpeg"
+    cd jpeg-6b;./configure&&make clean&&make;cd ..
+  fi
+
+# OS specifics
+if [ "$OS" = "SunOS" ];then
+  PATH=/opt/SUNWspro/bin:$PATH:/usr/ccs/bin
+  export PATH
+  CC=cc
+  EXTRALIBS="-lsocket -lnsl"
+  CXX=CC
+  CDEBUGFLAGS=-O
+  ZLIB_INCLUDE=-I../zlib-1.2.1
+  ZLIB_LIB="-L../zlib-1.2.1 -lz"
+  cd zlib-1.2.1;CC=cc ./configure&&make clean&&make;cd ..
+elif [ "$OS" = "OpenBSD" ];then
+  ZLIB_INCLUDE=-I../zlib-1.2.1
+  ZLIB_LIB="-L../zlib-1.2.1 -lz"
+  # OpenBSD has a libz but no header files
+  cd zlib-1.2.1;./configure &&make clean;cd ..
+elif [ "$OS" = "Darwin" ];then
+  CC=cc
+  CDEBUGFLAGS="-O2 -Wall"
+  CXX=c++
+elif [ "$OS" = "FreeBSD" ];then
+  # missing some macros
+  COMPILE_cc='$(CXX) -c $(CXXFLAGS)'
+  LINK_c='$(CXX) $(CXXFLAGS)'
+  LINK_cc='$(CXX) $(CXXFLAGS)'
+  vCOMPILE_cc="COMPILE.cc="
+  vLINK_c="LINK.c="
+  vLINK_cc="LINK.cc="
+fi
+
+cd vncsnapshot-$RELEASE
+if $MAKE CPLUSPLUS="$CXX" CC="$CC" EXTRALIBS="$EXTRALIBS" CDEBUGFLAGS="$CDEBUGFLAGS" CXX="$CXX" ZLIB_INCLUDE="$ZLIB_INCLUDE" ZLIB_LIB="$ZLIB_LIB" JPEG_INCLUDE="$JPEG_INCLUDE" JPEG_LIB="$JPEG_LIB" $vCOMPILE_cc"$COMPILE_cc" $vLINK_c"$LINK_c" $vLINK_cc"$LINK_cc";then 
+	HOST=`uname -srm | sed -e 's/ /-/g'`
+	if expr "$HOST" : "Linux"; then
+	  # prepend with info from /proc/version
+	  HOST="`sed -e 's=.*(.*(\([^)]*\)).*=\1=' -e 's= =-=g' -e 's=/=-=g' /proc/version`-$HOST"
+	fi
+	[ ! -d ../bin ] && mkdir ../bin
+	[ ! -d ../ldd-info ] && mkdir ../ldd-info
+
+	ldd vncsnapshot >../ldd-info/vncsnapshot-${HOST}.ldd
+	ldd vncpasswd >../ldd-info/vncpasswd-${HOST}.ldd
+	mv vncsnapshot ../bin/vncsnapshot-${HOST}
+	mv vncpasswd ../bin/vncpasswd-${HOST}
+	make clean
+	cd ..
+	cd jpeg-6b
+	make clean
+	cd ../zlib-1.2.1
+	make clean
+fi

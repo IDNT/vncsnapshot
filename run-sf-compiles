@@ -1,0 +1,26 @@
+#!/bin/sh
+
+RELEASE=1.2a
+
+# x86-openbsd1  OpenBSD 3.4
+# x86-solaris1  Solaris 9
+# x86-linux1    Linux 2.4 (Debian 2.2)
+# x86-linux2    Linux 2.4 (Redhat 9.0)
+# x86-freebsd1  FreeBSD (4.8)
+# x86-netbsd1   NetBSD (1.6.1)
+# amd64-linux1  Linux 2.4 (SuSE 8 ES on AMD64 Opteron)
+# alpha-linux1  Linux 2.2 (Debian 3.0)
+# ppc-osx1      MacOS X 10.1 SERVER Edition
+# ppc-osx2      MacOS X 10.2 SERVER Edition
+# sparc-solaris1 [R220] Sun Solaris (9) #1
+# sparc-solaris2 [R220] Sun Solaris (9) #2
+HOSTS='x86-openbsd1 x86-solaris1 x86-linux1 x86-linux2 x86-freebsd1 x86-netbsd1 amd64-linux1 alpha-linux1 ppc-osx1 ppc-osx2 sparc-solaris1'
+scp vncsnapshot-${RELEASE}-src.tar.bz2 cf-shell.sf.net:
+cmd="tar xjf vncsnapshot-${RELEASE}-src.tar.bz2;"
+cmd="${cmd}cp vncsnapshot-${RELEASE}/make_release_bin .;"
+for h in $HOSTS;do
+  cmd="${cmd}echo Compiling for $h;ssh $h ./make_release_bin ${RELEASE};echo;echo;echo;"
+done
+cmd="${cmd}tar cjf binaries-${RELEASE}.tar.bz2 bin ldd-info"
+ssh cf-shell.sf.net "$cmd"
+scp cf-shell.sf.net:binaries-${RELEASE}.tar.bz2 .

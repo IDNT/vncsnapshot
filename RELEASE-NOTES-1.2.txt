@@ -1,0 +1,20 @@
+Release Notes for VNC Snapshot 1.2
+=========================================
+New in this release is the ability to get multiple snapshots, using the
+-count and -fps options.
+
+This release also includes a version of vncpasswd usable on Windows.
+vncpasswd is also built on Unix/Linux systems to allow you to use it without
+a full VNC installation.
+
+Bug fixes include:
+ * Under some circumstances, a blank screen would be captured even if
+   -ignoreblank was specified.
+ * Makefiles have been edited to work better on some non-Linux systems.
+ * Compilation errors on Mac OS X (Darwin) have been fixed
+
+A new build script, make_release_bin, for Linux/Unix systems is also provided;
+it is intended for use by the maintainer to create compiled versions of the
+programs on multiple platforms with minimum pain.
+
+< $Id: RELEASE-NOTES-1.2.txt,v 1.1 2006/04/07 03:22:39 grmcdorman Exp $ >

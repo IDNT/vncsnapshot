@@ -1,0 +1,41 @@
+Release Notes for VNC Snapshot 1.1
+=========================================
+
+This is the second release of VNC snapshot. It has been tested on Windows,
+Linux and Solaris Sparc systems.
+
+This version merges the TightVNC 1.2.8 and RealVNC 3.3.7 code, including the
+ZRLE encoding.
+
+Semantics of the -rect option has changed. Formerly, when giving negative x
+and y (e.g. -rect 400x300-400-300) the x and y coordinates were of the top
+left corner of the rectangle. This meant that you usually had to add in the
+size of the rectangle. Now, the negative value refers to the right or bottom
+edge. Thus, in 1.0b1 the option:
+  -rect 400x300-400-300
+is now
+  -rect 400x300-0-0
+which is more readable (and sensible). This also now corresponds to the way
+Unix X11 -geometry specifications work.
+
+Two new pairs of options are available.
+
+The first is -cursor and -nocursor, which cause the remote cursor to be
+included, or excluded, from the snapshot. They will work with TightVNC
+servers only, unfortunately.
+
+The second is -allowblank and -ignoreblank, which cause blank (all black)
+screens to be saved, or ignored. -ignoreblank is the default and is
+appropriate for recent RealVNC servers on Windows systems, which send an
+all-blank screen at first before sending the actual image.
+
+Performance improvements have also been made when fetching a sub-rectangle
+of the screen; previously the entire screen would be retreived from the
+remote server, and the sub-rectangle extracted from that. Now, only the area
+to be saved is retrieved. This should reduce the amount of data sent across
+the network.
+
+Note: -listen, -tunnel, and -via are implemented but untested for Windows
+systems.
+
+< $Id: RELEASE-NOTES-1.1.txt,v 1.1 2004/09/09 00:22:33 grmcdorman Exp $ >

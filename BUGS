@@ -1,0 +1,16 @@
+Known bugs in vncsnapshot:
+
+ * The cursor may or may not appear in the snapshot. It is known to not
+   appear in snapshots of Windows Tight VNC servers when connecting normally,
+   and to appear when connecting via the server's 'Add New Client' option
+   (i.e. -listen option for vncsnapshot). In addition, moving the cursor
+   while vncsnapshot is connecting may result in the cursor being included
+   in the snapshot. The -cursor and -nocursor attempt to control this, but
+   are only workable for recent TightVNC servers.
+
+ * When getting multiple snapshots (i.e. using -count with a value greater
+   than 1) the second and subsequent images are messed up with some VNC
+   servers. This has been observed with the KDE server ("KDE Desktop
+   Sharing"), and with Ultra VNC.
+
+< $Id: BUGS,v 1.5 2004/09/09 22:10:03 grmcdorman Exp $ >

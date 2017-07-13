@@ -1,0 +1,154 @@
+.TH "vncsnapshot" "1" "1.0beta2" "Grant McDorman" "VNC"
+.\" $Id: vncsnapshot.man1,v 1.7 2006/04/07 03:22:39 grmcdorman Exp $
+.SH "NAME"
+.LP 
+vncsnapshot \- grab snapshots from VNC servers
+.SH "SYNTAX"
+.LP 
+vncsnapshot [\fIoptions\fP] \fIhost\fP:\fIdisplay\fP \fIJPEG\-file\fP
+.br 
+vncsnapshot [\fIoptions\fP] \-listen \fIlocal\-display\fP \fIJPEG\-file\fP
+.br 
+vncsnapshot [\fIoptions\fP] \-tunnel \fIhost\fP:\fIdisplay\fP \fIJPEG\-file\fP
+.br 
+vncsnapshot [\fIoptions\fP] \-via \fIgateway\fP \fIhost\fP:\fIdisplay\fP \fIJPEG\-file\fP
+.SH "DESCRIPTION"
+.LP 
+VNC Snapshot is a command\-line program for VNC. It will save a JPEG image of the VNC server's screen.
+.LP
+This manual page documents version 1.2a of vncsnapshot.
+.SH "OPTIONS"
+.LP 
+.TP
+\fB\-allowblank\fR
+Allow blank (all black) images as snapshots. See \fB-ignoreblank\fP.
+\fB\-compresslevel\fR  \fIlevel\fP
+Compress network messages to level, if the server supports it. level is between 0 and 9, with 0 being no compression 
+and 9 the maximum. The default is 4.
+.TP
+\fB\-cursor\fR
+Include the cursor in snapshots. Only effective if the remote server is a
+TightVNC version; otherwise ignored.
+.TP 
+\fB\-encodings\fR \fIlist\fP
+Use the given encodings. The default is
+.br
+\ "copyrect tight hextile zlib corre rre"
+.br
+or
+.br
+\ "raw copyrect tight hextile zlib corre rre"
+.br
+when VNC snapshot and the server are on the same machine.
+.TP
+\fB\-ignoreblank\fR
+Ignore blank (all black) screens; do not save the screen until a screen that
+is not all black is received. This is useful with some servers that send an
+initial all-black screen before sending the actual screen. This is the
+default.
+.TP
+\fB\-jpeg\fR
+Request the remote server to use JPEG-style encoding when sending the image,
+if possible. Currently only supported by TightVNC (and servers derived from
+it). This is the default.
+.TP
+\fB\-nocursor\fR
+Do not include the cursor in snapshots. Only effective if the remote server is a
+TightVNC version; otherwise ignored. This is the default.
+.TP
+\fB\-nojpeg\fR
+Request the remote server to \fBnot\fP use JPEG-style encoding when sending the image,
+if possible. Currently only supported by TightVNC (and servers derived from
+it).
+.TP
+\fB\-listen\fR \fIlocal-display\fP
+Do not connect to a server; wait for the server to
+connect to the specified local "display". Cannot be used with \fB\-tunnel\fP or \fB\-via\fP options.
+.TP
+\fB\-nullpasswd\fP
+Use a null (blank) password for authentication. This can be useful for servers that have
+a password for full control, and a blank password for view-only.
+.TP
+\fB\-passwd\fR \fIfilename\fP
+Read encrypted password from \fIfilename\fP instead of from the console. The \fIfilename\fP can be made with the
+vncpasswd utility included with the vncsnapshot release. Note that vncpasswd will not create
+blank passwords; use the -nullpasswd option instead.
+.TP
+\fB\-quality \fIquality\fP
+Use the specified JPEG image quality (0-100) for the output file.
+The default is 100.
+.TP
+\fB\-quiet
+Do not print any messages. Opposite of \fB-verbose\fP.
+.TP
+\fB\-rect \fIw\fPx\fIh\fP+\fIx\fP+\fIy\fP
+Save a sub-rectangle of the screen, width \fIw\fP height \fIh\fP
+offset from the left by \fIx\fP and the top by \fIy\fP.
+
+A negative number for \fIx\fP or \fIy\fP makes it an
+offset from the opposite edge.
+
+A zero value for the width or height makes the snapshot extend
+to the right or bottom of the screen, respectively.
+
+The default is the entire screen.
+.TP
+\fB\-tunnel\fR
+Connect to the remote server via an SSH tunnel.
+Cannot be used with \fB\-listen\fP or \fB\-via\fP options.
+.TP
+\fB\-via\fR \fIgateway\fP
+Connect to the remote server via an SSH tunnel on the host
+\fIgateway\fP.
+Cannot be used with \fB\-listen\fP or \fB\-tunnel\fP options.
+.TP
+\fB\-verbose
+Print messages; default.
+.TP
+\fB\-vncQuality \fIquality\fP
+Use the specified image quality level (0-9) for
+tight encoding. The default is 9. Only effective if the remote server is a
+TightVNC version; otherwise ignored.
+.TP
+\fB\-count \fInumber\fP
+Take \fInumber\fP snapshots; default 1. If greater than 1,
+vncsnapshot will insert a five-digit sequence number just before
+the output file's extension; i.e. if you specify \fBout.jpeg\fP
+as the output file, it will create \fBout00001.jpeg\fP, \fBout00002.jpeg\fP,
+and so forth
+.TP
+\fB\-fps \fIrate\fP
+When taking multiple snapshots, take them every \fIrate\fP seconds; default 60.
+.SH "EXAMPLES"
+.TP
+vncsnapshot ankh-morpork:1 unseen.jpg
+Get a snapshot of screen 1 from the server \fBahnk-morpork\fP
+and save it in \fBunseen.jpg\fP. The entire screen is saved; the
+default transport is used.
+.TP
+vncsnapshot \-listen 0 portrait.jpeg
+Wait for a server to connect to this host (using "screen" 0),
+and then save the full screen image in \fBportrait.jpeg\fP.
+.TP
+vncsnapshot \-passwd ~/.vnc/passwd \-rect 640x0+120+30 :1 subarea.jpeg
+Using \fB~/.vnc/passwd\fP to get the server's password,
+connect to screen 1 on the local machine and save a rectangle 640 pixels
+high and extending to the right edge, offset 120 pixels from the left
+and 30 pixels down.
+.TP
+vncsnapshot \-rect 0x0\-800\-600 :1 pict.jpeg
+Get a snapshot that is 800 pixels from the right edge and 600 pixels
+from the bottom of the screen. It will extend to the screen edges,
+making it 800x600. Alternatively, the rectangle could be given as
+\fB-rect 800x600-0-0\fP, which specifies the same region.
+.SH "AUTHOR"
+.LP
+Grant McDorman <grmcdorman@netscape.net>
+.br 
+Based on TightVNC <http://www.tightvnc.com> and RealVNC
+<http://www.realvnc.com>.
+.SH "DISTRIBUTION"
+Source for vncsnapshot can be found at <http://vncsnapshot.sourceforge.net>.
+.SH "SEE ALSO"
+.LP 
+vncviewer(1), Xvnc(1), vncpasswd(1), vncconnect(1)

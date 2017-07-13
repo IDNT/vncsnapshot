@@ -1,0 +1,39 @@
+BUILDING vncsnapshot (1.0 release) for Windows
+==============================================
+
+This distibution requires two third-party libraries for successfull
+compilation. They are NOT included in this archive. These are are zlib
+and JPEG libraries freely available in the source form from following
+locations:
+
+  JPEG library:
+   Home page: http://www.ijg.org/
+   Tar/GZ:    http://www.ijg.org/files/jpegsrc.v6b.tar.gz
+   Zip:       ftp://ftp.simtel.net/pub/simtelnet/msdos/graphics/jpegsr6.zip
+  zlib library: Version 1.2.1 or later. 1.1.4 is no longer supported
+    Home page http://www.gzip.org/zlib/
+    See the home page for download locations. As of this writing, there
+    are two primary mirrors (France and US); formats include tar.gz,
+    tar.bz2, and zip.
+
+The workspaces assume the 1.2.1 Zlib source. However, if you wish to use the
+1.1.4 source, you may do so by removing the source file list for the Zlib
+project and replacing it with the 1.1.4 source file list.
+
+Please download these libraries prior to compilation.
+
+After you have downloaded and unpacked libraries, place their source
+files to the locations listed below, NOT overriding existing files:
+
+  zlib library:
+    zlib/
+
+  JPEG library:
+    libjpeg
+
+You can then build using Microsoft's Visual Studio. Output is placed in Debug
+or Release, depending on the type of build you've done.
+
+Borland C++ builds are not supported at the moment.
+
+< $Id: BUILD.win32,v 1.4 2004/09/09 00:22:33 grmcdorman Exp $ >
