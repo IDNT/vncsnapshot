@@ -18,7 +18,7 @@ It can be invoked in several ways:
 
     vncsnapshot options host:display JPEG-filename
 
-    vncsnapshot options host:port JPEG-filename
+    vncsnapshot options host::port JPEG-filename
 
     vncsnapshot options -listen local-display JPEG-filename
 
