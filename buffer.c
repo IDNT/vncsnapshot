@@ -104,9 +104,9 @@ CopyDataToScreen(char *buffer, int x, int y, int w, int h)
 
     for (row = 0; row < h; row++) {
         for (col = 0; col < w; col++) {
-            bufferBlank &= buffer[0] == 0 &&
+            bufferBlank &= (buffer[0] == 0 &&
                            buffer[1] == 0 &&
-                           buffer[2] == 0;
+                           buffer[2] == 0);
             rawBuffer[start++] = *buffer++;
             rawBuffer[start++] = *buffer++;
             rawBuffer[start++] = *buffer++;
@@ -156,7 +156,7 @@ FillBufferRectangle(int x, int y, int w, int h, unsigned long pixel)
 
     BufferPixelToRGB(pixel, &r, &g, &b);
 
-    bufferBlank &= r == 0 && g == 0 && b == 0;
+    bufferBlank &= (r == 0 && g == 0 && b == 0);
     bufferWritten = 1;
 
     stride = si.framebufferWidth * RAW_BYTES_PER_PIXEL - w * RAW_BYTES_PER_PIXEL;

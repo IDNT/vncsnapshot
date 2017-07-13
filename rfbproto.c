@@ -215,7 +215,15 @@ InitialiseRFBConnection()
 	return False;
       }
     } else {
-      passwd = getpass("Password: ");
+	char* vncticket = NULL;
+	if ((vncticket = getenv("VNC_TICKET")) != NULL && strlen(vncticket) > 0) {
+	    passwd = vncticket;
+	} else if(isatty(0)) {
+    	    passwd = getpass("Password: ");
+        } else {
+    	    static char password[128];
+            passwd = fgets(password, sizeof(password)-1, stdin);
+        }
     }
 
     if (passwd == NULL) {
@@ -723,8 +731,8 @@ HandleRFBServerMessage()
   }
 
   default:
-    fprintf(stderr,"Unknown message type %d from VNC server\n",msg.type);
-    return False;
+    fprintf(stderr,"Warning: unknown message type %d from VNC server\n",msg.type);
+    return True;
   }
 
   return True;
