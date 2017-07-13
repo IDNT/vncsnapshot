@@ -30,13 +30,13 @@ It can be invoked in several ways:
 
 Options:
 
-    -cursor 
+    -cursor
     -nocursor	 		Attempt to include, or exclude, the mouse cursor from the snapshot.
-				Currently, this works only when the remote server is TightVNC 1.2.7 
-				or later. Other servers do not respond to these options and may or 
+				Currently, this works only when the remote server is TightVNC 1.2.7
+				or later. Other servers do not respond to these options and may or
 				may not include the cursor in the snapshot.
-    -passwd filename		Read encrypted password from filename instead of from the console. 
-				The filename can be made with the vncpasswd utility included in the 
+    -passwd filename		Read encrypted password from filename instead of from the console.
+				The filename can be made with the vncpasswd utility included in the
 				vncsnapshot distribution.
     -encodings list		Use the given encodings. The default is
 				    "copyrect tight hextile zlib corre rre"
@@ -62,8 +62,8 @@ Options:
 				from the opposite edge. A zero value for the width or height makes the 
 				snapshot extend to the right or bottom of the screen, respectively.
 				The default is the entire screen.
-    -count number	 	Take number snapshots; default 1. If greater than 1, vncsnapshot will 
-				insert a five-digit sequence number just before the output file's 
+    -count number	 	Take number snapshots; default 1. If greater than 1, vncsnapshot will
+				insert a five-digit sequence number just before the output file's
 				extension; i.e. if you specify out.jpeg as the output file, it will create
 				out00001.jpeg, out00002.jpeg, and so forth.
     -fps rate	 		When taking multiple snapshots, take them every rate seconds; default 60.
@@ -87,7 +87,7 @@ On Windows systems, please read BUILD.win32.
 
 On Unix and Linux systems, please read BUILD.unix.
 
-## COPRIGHT / LICENSE
+## COPYRIGHT / LICENSE
 
 vncsnapshot was published under the GNU General Public License version 2.0 (GPLv2)
 
